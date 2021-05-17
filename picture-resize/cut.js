@@ -3,12 +3,11 @@ const fsExtra = require('fs-extra')
 const sharpe = require('sharp')
 const path = require('path')
 
-const from = 'radius'
+const from = 'images'
 const size = 128
-const radius = 12
+const radius = 32
 const distDir = path.resolve(__dirname, `./dist/${size}`)
-const fromDir = path.resolve(__dirname, `./${from}`)
-const files = fs.readdirSync(fromDir)
+const files = fs.readdirSync(`./${from}`)
 
 if (!fs.existsSync(distDir)) fsExtra.ensureDirSync(distDir)
 
@@ -17,12 +16,12 @@ const rect = Buffer.from(
 )
 
 files.forEach(name => {
-  const filePath = path.resolve(distDir, name)
+  const filePath = path.resolve(distDir, path.basename(name, path.extname(name)) + '.png')
   if (!fs.existsSync(filePath)) {
     const dir = path.resolve(__dirname, `./${from}/${name}`)
     console.log(`【${name}】convert to ==>\n\t`, filePath)
 
-    sharpe(dir).resize(size).composite([{ input: rect, blend: 'dest-in' }]).png().toBuffer().then(data => {
+    sharpe(dir).resize(size).composite([{ input: rect, blend: 'dest-in' }]).png({ palette: true }).toBuffer().then(data => {
       fs.writeFileSync(filePath, data)
     })
   }

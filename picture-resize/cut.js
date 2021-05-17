@@ -7,7 +7,8 @@ const from = 'radius'
 const size = 128
 const radius = 12
 const distDir = path.resolve(__dirname, `./dist/${size}`)
-const files = fs.readdirSync(`./${from}`)
+const fromDir = path.resolve(__dirname, `./${from}`)
+const files = fs.readdirSync(fromDir)
 
 if (!fs.existsSync(distDir)) fsExtra.ensureDirSync(distDir)
 

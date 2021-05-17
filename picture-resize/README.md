@@ -19,7 +19,7 @@ corresponding environment according to the error message
 + core code
 
 ```js
-sharpe('input.png').resize(192).png()
+sharpe('input.png').resize(128).png()
 ```
 
 1. Prepare some pictures, put them under directory `images`, and modify the

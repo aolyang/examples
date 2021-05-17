@@ -13,7 +13,7 @@
 + 关键代码
 
 ```js
-sharpe('input.png').resize(192).png()
+sharpe('input.png').resize(128).png()
 ```
 
 1. 准备好一些图片，放到images下，修改cut.js脚本。

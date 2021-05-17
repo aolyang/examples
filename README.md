@@ -6,4 +6,4 @@ several code examples!
 
 ## picture-resize
 
-+ [picture-resize](./tree/main/picture-resize): modify picture width, height and radius. based on [lovell/sharp](https://github.com/lovell/sharp/tree/master)
++ [picture-resize](https://github.com/aolyang/examples/tree/main/picture-resize): modify picture width, height and radius. based on [lovell/sharp](https://github.com/lovell/sharp/tree/master)

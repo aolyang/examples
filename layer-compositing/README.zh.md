@@ -99,7 +99,7 @@
 
 点击一条消息，查看详情（消息详情像menu一样滑入滑出）
 
-![image-20210704173249712](C:\Users\Octo1996\AppData\Roaming\Typora\typora-user-images\image-20210704173249712.png)
+![image-20210704173249712](./animation-check.png)
 
 我们看到这里有异常多的Layout引起的回流。
 

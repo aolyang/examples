@@ -36,17 +36,17 @@
 
 + 光栅化就是将**矢量图形**（左）通过光栅器填充为单个像素，形成**位图**（右）
 
-![image-20210704142624553](G:\projects\examples\layer-compositing\Raster.png)
+![image-20210704142624553](./Raster.png)
 
 + 那么回到刚才的简易代码，光栅器是如何执行的呢？
 
-![draw-steps](G:\projects\examples\layer-compositing\draw-steps.gif)
+![draw-steps](./draw-steps.gif)
 
 + 最后，绘制出一个**图层**
 
 5. **Composite**，将解析出的图层进行增量渲染。图一图层，即便是微小的改动，也会整个渲染，而组合这些图层便是性能优化中的关键。
 
-![composite-layout](G:\projects\examples\layer-compositing\composite-layout.gif)
+![composite-layout](./composite-layout.gif)
 
 # 帧率优化-Composite
 
@@ -55,7 +55,7 @@
 
 [表格全文]([CSS Triggers](https://csstriggers.com/))
 
-![image-20210704165221330](G:\projects\examples\layer-compositing\pip-table.png)
+![image-20210704165221330](./pip-table.png)
 
 
 
@@ -65,33 +65,33 @@
 
 跑起代码之后，我们看到的是这样一个界面：
 
-![image-20210704163534233](G:\projects\examples\layer-compositing\index-page.png)
+![image-20210704163534233](./index-page.png)
 
 ## 减少无意义的几何改变
 
 1. 打开**F12**，选择**Performance**标签，按**Ecs**打开控制台，添加**Rendering**标签
 
-![image-20210704163949391](G:\projects\examples\layer-compositing\devtools.png)
+![image-20210704163949391](./devtools.png)
 
 2. **滚动**录制一段时间线（以前叫TimeLine现在叫Performance），可以看到帧率及其糟糕，有大量的红色标记
 
-![image-20210704164259869](G:\projects\examples\layer-compositing\timeline.png)
+![image-20210704164259869](./timeline.png)
 
 3. 展开渲染细节我们发现有大量的强制布局同步引起的回流（Force synchronous layout -> Force Reflow），而调用堆栈显示是**colorizeAndScaleStories** 引起的
 
-![image-20210704164704512](G:\projects\examples\layer-compositing\colorizeAndScale.png)
+![image-20210704164704512](./colorizeAndScale.png)
 
 4. 进入到**colorizeAndScaleStories**内部，我们发现有js在实时的更改这dom的宽高
 
-![image-20210704165422805](G:\projects\examples\layer-compositing\inside-function.png)
+![image-20210704165422805](./inside-function.png)
 
 而从上面的触发对比表格里我们知道Width，Height是全触发！
 
-![image-20210704170013796](G:\projects\examples\layer-compositing\wh-trigger.png)
+![image-20210704170013796](./wh-trigger.png)
 
 这个函数的功能是计算每一条新闻的位置，将屏幕下半截的左边计数圆盘改变颜色、大小并且在改变之后保持行内上下居中。从需求角度讲根本没卵用，但是对页面的性能有极大的伤害，那就直接干掉，然后看效果。
 
-![image-20210704171720591](G:\projects\examples\layer-compositing\reduce1.png)
+![image-20210704171720591](./reduce1.png)
 
 对比刚才每帧一个回流操作简直赏心悦目，帧率也明显提升，棒！
 
@@ -103,11 +103,11 @@
 
 我们看到这里有异常多的Layout引起的回流。
 
-![image-20210704173610354](G:\projects\examples\layer-compositing\reduce2.png)
+![image-20210704173610354](./reduce2.png)
 
 展开细节我们可以看到这里是由一个叫做**animate**方法引起的。
 
-![image-20210704173749148](G:\projects\examples\layer-compositing\animate.png)
+![image-20210704173749148](./animate.png)
 
 不看不知道，一看吓一跳，里面竟然用js递减确定位置，还用的是settimeout，即便是如此也应该用**requestAnimationFrame**是吧。
 
@@ -119,13 +119,13 @@
 
 + 直接创建一个节点以供选择新闻内容后进行内容填充。
 
-![image-20210704182739603](G:\projects\examples\layer-compositing\section-inbody.png)
+![image-20210704182739603](./section-inbody.png)
 
 + 动画改用css实现。
 
-![image-20210704182833961](G:\projects\examples\layer-compositing\animation-css.png)
+![image-20210704182833961](./animation-css.png)
 
-![image-20210704182704478](G:\projects\examples\layer-compositing\animate-end.png)
+![image-20210704182704478](./animate-end.png)
 
 最终结果表示，滑入滑出的动画也能60帧运行了，丝滑无比。
 

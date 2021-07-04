@@ -1,0 +1,62 @@
+<html lang="en">
+<head>
+    <title>Composite</title>
+</head>
+<style>
+    html, body {
+        margin: 0;
+        height: 100%;
+    }
+
+    #menu {
+        width: 300px;
+        height: 100%;
+        border: 1px solid grey;
+        border-top: none;
+        border-bottom: none;
+        background-color: white;
+        position: fixed;
+        top: 0;
+        transform: translateX(-300px);
+        transition: transform 300ms linear;
+    }
+
+    #menu.menu-trigger {
+        transform: translateX(0);
+    }
+</style>
+<body>
+<header style="background-color: #15a2ff">
+    <div style="padding: 10px" onClick="toggleMenu()">
+        <svg xmlns="http://www.w3.org/2000/svg"
+             fill="#fff"
+             viewBox="0 0 30 30"
+             width="60px"
+             height="60px">
+            <path d="M 3 7 A 1.0001 1.0001 0 1 0 3 9 L 27 9 A 1.0001 1.0001 0 1 0 27 7 L 3 7 z M 3 14 A 1.0001 1.0001 0 1 0 3 16 L 27 16 A 1.0001 1.0001 0 1 0 27 14 L 3 14 z M 3 21 A 1.0001 1.0001 0 1 0 3 23 L 27 23 A 1.0001 1.0001 0 1 0 27 21 L 3 21 z" />
+        </svg>
+    </div>
+</header>
+<div id="menu">
+    <h1>Menu</h1>
+    <div>Menu Content</div>
+    <div>Menu Content</div>
+    <div>Menu Content</div>
+    <div>Menu Content</div>
+    <div>Menu Content</div>
+    <div>Menu Content</div>
+</div>
+<script>
+  window.onclick = function (event) {
+    if (event.target.tagName === 'BODY') {
+      document.getElementById('menu').classList.remove('menu-trigger')
+      console.log('body')
+    }
+  }
+
+  function toggleMenu() {
+    document.getElementById('menu').classList.toggle('menu-trigger')
+  }
+</script>
+</body>
+</html>

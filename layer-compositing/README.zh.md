@@ -6,7 +6,7 @@
 
 # 像素管道
 
-![repaint](G:\projects\examples\layer-compositing\repaint.jpg)
+![repaint](./repaint.jpg)
 
 - **JavaScript**。一般来说，我们会使用 JavaScript 来实现一些视觉变化的效果。比如用 jQuery 的 `animate` 函数做一个动画、对一个数据集进行排序或者往页面里添加一些 DOM 元素等。当然，除了 JavaScript，还有其他一些常用方法也可以实现视觉变化效果，比如: CSS Animations、Transitions 和 Web Animation API。
 - **样式计算**（Style）。此过程是根据匹配选择器（例如 `.headline` 或 `.nav > .nav__item`）计算出哪些元素应用哪些 CSS 规则的过程。从中知道规则之后，将应用规则并计算每个元素的最终样式。
@@ -15,4 +15,22 @@
 - **合成**（Composite）。由于页面的各部分可能被绘制到多层，由此它们需要按正确顺序绘制到屏幕上，以便正确渲染页面。对于与另一元素重叠的元素来说，这点特别重要，因为一个错误可能使一个元素错误地出现在另一个元素的上层。
 
 上面每一个步骤都可能会产生渲染性能而造成卡顿，所以，确定代码触发了管道哪一部分十分重要。
+
+
+
+## 页面如何从文件到用户看到的画面
+
+1. 下载html文件以及相关的css文件并解析成**Dom Tree**
+
+   ![Dom Tree](./dom-tree.png)
+
+2. `Dom`+`CSS`生成`Render Tree`，也就是Compputed style里的内容；那么干了什么呢？1）解析不显示的dom-node，将其从tree里删除，2）解析伪类的content，插入新的dom-node。注意里面去掉了与页面样式无关的`<header>`和`<script>`标签，因为这些在获取样式之后和dom并没有任何关联。
+
+   ![RenderTree](./render-tree.png)
+
+3. 根据`Render Tree` + `CSS`解析出Layout，也就是几何内容、盒子关系。也是引起回流（**Reflow**）的内容。
+
+   ![Layout](./layout.png)
+
+4. 
 
